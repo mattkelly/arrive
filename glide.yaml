@@ -1,0 +1,25 @@
+package: github.com/mattkelly/arrive
+import:
+- package: github.com/golang/glog
+- package: k8s.io/api
+  subpackages:
+  - core/v1
+- package: k8s.io/apimachinery
+  subpackages:
+  - pkg/apis/meta/v1
+  - pkg/runtime
+  - pkg/runtime/schema
+  - pkg/selection
+  - pkg/watch
+- package: k8s.io/client-go
+  subpackages:
+  - dynamic
+  - informers
+  - kubernetes
+  - tools/cache
+  - tools/clientcmd
+testImport:
+- package: github.com/stretchr/testify
+  version: v1.2.2
+  subpackages:
+  - assert
