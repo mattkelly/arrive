@@ -9,9 +9,9 @@ import (
 )
 
 type Filter struct {
-	OperandLeft  Operand            `json:"operandLeft"`
+	OperandLeft  Operand            `json:"operandLeft,omitempty"`
 	Operator     selection.Operator `json:"operator"`
-	OperandRight Operand            `json:"operandRight"`
+	OperandRight Operand            `json:"operandRight,omitempty"`
 }
 
 func (f *Filter) Match(obj *runtime.Unstructured) bool {

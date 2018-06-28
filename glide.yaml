@@ -2,9 +2,11 @@ package: github.com/mattkelly/arrive
 import:
 - package: github.com/golang/glog
 - package: k8s.io/api
+  version: kubernetes-1.11.0-rc.3
   subpackages:
   - core/v1
 - package: k8s.io/apimachinery
+  version: kubernetes-1.11.0-rc.3
   subpackages:
   - pkg/apis/meta/v1
   - pkg/runtime
@@ -12,12 +14,15 @@ import:
   - pkg/selection
   - pkg/watch
 - package: k8s.io/client-go
+  version: kubernetes-1.11.0-rc.3
   subpackages:
   - dynamic
   - informers
   - kubernetes
   - tools/cache
   - tools/clientcmd
+- package: k8s.io/code-generator
+  version: kubernetes-1.11.0-rc.3
 testImport:
 - package: github.com/stretchr/testify
   version: v1.2.2
