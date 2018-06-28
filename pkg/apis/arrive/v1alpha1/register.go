@@ -5,7 +5,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	arrive "k8s.io/sample-controller/pkg/apis/arrive"
+	arrive "github.com/mattkelly/arrive/pkg/apis/arrive"
 )
 
 // SchemeGroupVersion is group version used to register these objects

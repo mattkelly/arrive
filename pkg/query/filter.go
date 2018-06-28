@@ -9,17 +9,11 @@ import (
 )
 
 type Filter struct {
-	OperandLeft  Operand            `json:"operandLeft,omitempty"`
-	Operator     selection.Operator `json:"operator"`
-	OperandRight Operand            `json:"operandRight,omitempty"`
+	//OperandLeft  Operand            `json:"operandLeft,omitempty"`
+	Operator selection.Operator `json:"operator"`
+	//OperandRight Operand            `json:"operandRight,omitempty"`
 }
 
 func (f *Filter) Match(obj *runtime.Unstructured) bool {
 	return false
-}
-
-// TODO move to types.go when it exists
-type ExpectedState struct {
-	Operator selection.Operator `json:"operator"`
-	Count    Operand            `json:"count"`
 }

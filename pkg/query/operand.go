@@ -1,12 +1,16 @@
 package query
 
 import (
-	corev1 "k8s.io/api/core/v1"
+//corev1 "k8s.io/api/core/v1"
 )
 
+// TODO it would be great to have these types
+// here but it seems codegen doesn't support
+// that...
+/*
 type Operand struct {
-	Value     interface{}
-	ValueFrom ValueReference
+	Value     interface{}    `json:"value,omitempty"`
+	ValueFrom ValueReference `json:"valueFrom,omitempty"`
 }
 
 type ValueReference struct {
@@ -25,3 +29,4 @@ type ValueReference struct {
 	// +optional
 	SecretKeyRef *corev1.SecretKeySelector `json:"secretKeyRef,omitempty"`
 }
+*/
