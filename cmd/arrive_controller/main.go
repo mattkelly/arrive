@@ -53,12 +53,11 @@ func main() {
 		Resource: "pods",
 	}
 
-	pod, err := dyclient.Resource(resource).Namespace("kube-system").Get("kube-proxy-fhhrt", metav1.GetOptions{})
+	pod, err := dyclient.Resource(resource).Namespace("kube-system").Get("kube-proxy-s8tcv", metav1.GetOptions{})
 	if err != nil {
 		panic(err)
 	}
 
-	fmt.Printf("Unstructured:\n")
 	fmt.Printf("%#v:\n", pod)
 }
 

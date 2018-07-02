@@ -45,6 +45,12 @@ type Operand struct {
 	ValueFrom ValueReference `json:"valueFrom,omitempty"`
 }
 
+type Filter struct {
+	OperandLeft  Operand            `json:"operandLeft,omitempty"`
+	Operator     selection.Operator `json:"operator"`
+	OperandRight Operand            `json:"operandRight,omitempty"`
+}
+
 type ValueReference struct {
 	// Selects a field of the pod: supports metadata.name, metadata.namespace, metadata.labels, metadata.annotations,
 	// spec.nodeName, spec.serviceAccountName, status.hostIP, status.podIP.
