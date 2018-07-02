@@ -8,6 +8,7 @@ import (
 	"github.com/golang/glog"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/selection"
 	//"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	//"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/client-go/dynamic"
@@ -19,6 +20,7 @@ import (
 	// _ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	//"github.com/mattkelly/arrive/pkg/controller"
 
+	"github.com/mattkelly/arrive/pkg/apis/arrive/v1alpha1"
 	"github.com/mattkelly/arrive/pkg/buildinfo"
 )
 
@@ -59,6 +61,24 @@ func main() {
 	}
 
 	fmt.Printf("%#v:\n", pod)
+
+	val := "1"
+	f := v1alpha1.Filter{
+		OperandLeft: v1alpha1.Operand{
+			ValueFrom: &v1alpha1.ValueReference{},
+		},
+		Operator: selection.Equals,
+		OperandRight: v1alpha1.Operand{
+			Value: &val,
+		},
+	}
+
+	match, err := f.Match(pod)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("match: %v\n", match)
 }
 
 func init() {

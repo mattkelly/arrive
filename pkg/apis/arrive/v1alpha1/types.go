@@ -47,8 +47,9 @@ type FilterResult struct {
 
 type Operand struct {
 	// TODO more than just strings
-	Value     string         `json:"value,omitempty"`
-	ValueFrom ValueReference `json:"valueFrom,omitempty"`
+	// Pointers to determine unset vs explicit zero value
+	Value     *string         `json:"value,omitempty"`
+	ValueFrom *ValueReference `json:"valueFrom,omitempty"`
 }
 
 type Filter struct {
