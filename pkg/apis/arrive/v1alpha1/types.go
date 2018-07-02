@@ -33,8 +33,14 @@ type ArriveTestSpec struct {
 //type ArriveTestStatus struct {
 //}
 
-// TODO move to types.go when it exists
+// TODO names
 type ExpectedState struct {
+	MatchFilters []Filter     `json:"matchFilters"`
+	Result       FilterResult `json:"result"`
+}
+
+// TODO worst name ever
+type FilterResult struct {
 	Operator selection.Operator `json:"operator"`
 	Count    Operand            `json:"count"`
 }
