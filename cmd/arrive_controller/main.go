@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"runtime"
 
 	"github.com/golang/glog"
 
@@ -17,6 +18,8 @@ import (
 	// Uncomment the following line to load the gcp plugin (only required to authenticate against GKE clusters).
 	// _ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	//"github.com/mattkelly/arrive/pkg/controller"
+
+	"github.com/mattkelly/arrive/pkg/buildinfo"
 )
 
 var (
@@ -25,6 +28,10 @@ var (
 )
 
 func main() {
+	glog.Info("Starting Arrive Controller...")
+	glog.Infof("Version: %s", buildinfo.String())
+	glog.Infof("Go Version: %s", runtime.Version())
+
 	flag.Parse()
 
 	// set up signals so we handle the first shutdown signal gracefully
