@@ -1,5 +1,5 @@
-hash: 5260ae6e17dbdd817dc8b5d5a4e43b89a40eabcd460d5ab33c1de4193d2a09bc
-updated: 2018-06-28T08:50:53.990806-04:00
+hash: 5e7b3960904ddcda59df4d4f7a0deea4002fcc935d2c3992ef9805c6c7af2798
+updated: 2018-07-02T00:11:55.355091-04:00
 imports:
 - name: github.com/davecgh/go-spew
   version: 782f4967f2dc4564575ca782fe2d04090b5faca8
@@ -50,6 +50,8 @@ imports:
   version: 05fbef0ca5da472bbf96c9322b84a53edc03c9fd
 - name: github.com/peterbourgon/diskv
   version: 5f041e8faa004a95c88a202771f4cc3e991971e6
+- name: github.com/pkg/errors
+  version: 645ef00459ed84a119197bfb8d8205042c6df63d
 - name: github.com/spf13/pflag
   version: 583c0c0531f06d5278b7d917446061adc344b5cd
 - name: golang.org/x/crypto
