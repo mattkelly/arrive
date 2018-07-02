@@ -10,3 +10,9 @@ test:
 
 vet:
 	@go vet ${PKG_LIST}
+
+gen:
+	@./hack/update-codegen.sh
+
+verify:
+	@./hack/verify-codegen.sh

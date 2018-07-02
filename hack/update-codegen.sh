@@ -1,15 +1,18 @@
 #!/usr/bin/env bash
 
-SCRIPT_NAME=$(basename $0)
+set -o errexit
+set -o nounset
+# TODO uncomment when gengo workaround is removed
+#set -o pipefail
 
-SRC_DIR=$GOPATH/src/github.com/mattkelly/arrive
-
-go get -u k8s.io/gengo
+# TODO remove these workarounds
+go get -u k8s.io/gengo || true
 rm -rf ./vendor/github.com/golang/glog
 rm -rf ./vendor/github.com/spf13/pflag
 
-cd $SRC_DIR
+SCRIPT_ROOT=$(dirname ${BASH_SOURCE})/..
+CODEGEN_PKG=${CODEGEN_PKG:-$(cd ${SCRIPT_ROOT}; ls -d -1 ./vendor/k8s.io/code-generator 2>/dev/null || echo ../code-generator)}
 
-vendor/k8s.io/code-generator/generate-groups.sh all \
+${CODEGEN_PKG}/generate-groups.sh all \
   github.com/mattkelly/arrive/pkg/client github.com/mattkelly/arrive/pkg/apis \
   "arrive:v1alpha1"
