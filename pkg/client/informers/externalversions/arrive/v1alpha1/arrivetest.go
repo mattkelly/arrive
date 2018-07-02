@@ -21,7 +21,7 @@ package v1alpha1
 import (
 	time "time"
 
-	arrivev1alpha1 "github.com/mattkelly/arrive/pkg/apis/arrive/v1alpha1"
+	arrive_v1alpha1 "github.com/mattkelly/arrive/pkg/apis/arrive/v1alpha1"
 	versioned "github.com/mattkelly/arrive/pkg/client/clientset/versioned"
 	internalinterfaces "github.com/mattkelly/arrive/pkg/client/informers/externalversions/internalinterfaces"
 	v1alpha1 "github.com/mattkelly/arrive/pkg/client/listers/arrive/v1alpha1"
@@ -70,7 +70,7 @@ func NewFilteredArriveTestInformer(client versioned.Interface, namespace string,
 				return client.ArriveV1alpha1().ArriveTests(namespace).Watch(options)
 			},
 		},
-		&arrivev1alpha1.ArriveTest{},
+		&arrive_v1alpha1.ArriveTest{},
 		resyncPeriod,
 		indexers,
 	)
@@ -81,7 +81,7 @@ func (f *arriveTestInformer) defaultInformer(client versioned.Interface, resyncP
 }
 
 func (f *arriveTestInformer) Informer() cache.SharedIndexInformer {
-	return f.factory.InformerFor(&arrivev1alpha1.ArriveTest{}, f.defaultInformer)
+	return f.factory.InformerFor(&arrive_v1alpha1.ArriveTest{}, f.defaultInformer)
 }
 
 func (f *arriveTestInformer) Lister() v1alpha1.ArriveTestLister {

@@ -62,10 +62,14 @@ func main() {
 
 	fmt.Printf("%#v:\n", pod)
 
-	val := "1"
+	val := "kube-proxy-s8tcv"
 	f := v1alpha1.Filter{
 		OperandLeft: v1alpha1.Operand{
-			ValueFrom: &v1alpha1.ValueReference{},
+			ValueFrom: &v1alpha1.ValueReference{
+				FieldRef: &v1alpha1.FieldSelector{
+					FieldPath: "metadata.name",
+				},
+			},
 		},
 		Operator: selection.Equals,
 		OperandRight: v1alpha1.Operand{

@@ -11,14 +11,14 @@ import (
 
 func (f *Filter) Match(obj *unstructured.Unstructured) (bool, error) {
 	// TODO handle case where only one Operand specified
-	left, err := f.OperandLeft.Resolve()
+	left, err := f.OperandLeft.Resolve(obj)
 	fmt.Printf("left = %v\n", left)
 	if err != nil {
 		// TODO wrap
 		return false, err
 	}
 
-	right, err := f.OperandRight.Resolve()
+	right, err := f.OperandRight.Resolve(obj)
 	fmt.Printf("right = %v\n", right)
 	if err != nil {
 		// TODO wrap

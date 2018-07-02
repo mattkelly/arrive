@@ -58,11 +58,14 @@ type Filter struct {
 	OperandRight Operand            `json:"operandRight,omitempty"`
 }
 
+type FieldSelector struct {
+	FieldPath string `json"fieldPath"`
+}
+
 type ValueReference struct {
-	// Selects a field of the pod: supports metadata.name, metadata.namespace, metadata.labels, metadata.annotations,
-	// spec.nodeName, spec.serviceAccountName, status.hostIP, status.podIP.
-	// +optional
-	FieldRef *corev1.ObjectFieldSelector `json:"fieldRef,omitempty"`
+	// TODO would be nice to use corev1.ObjectFieldRef but it's limited in
+	// which fields it supports right now.
+	FieldRef *FieldSelector `json:"fieldRef,omitempty"`
 	// Selects a resource of the container: only resources limits and requests
 	// (limits.cpu, limits.memory, limits.ephemeral-storage, requests.cpu, requests.memory and requests.ephemeral-storage) are currently supported.
 	// +optional
