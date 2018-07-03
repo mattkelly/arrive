@@ -1,10 +1,8 @@
 package v1alpha1
 
 import (
-	//"github.com/mattkelly/arrive/pkg/query"
-
-	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apimachinery/pkg/selection"
 )
 
@@ -35,8 +33,12 @@ type ArriveTestSpec struct {
 
 // TODO names
 type ExpectedState struct {
-	MatchFilters []Filter     `json:"matchFilters"`
-	Result       FilterResult `json:"result"`
+	// TODO it would be nice to target GVK based on matchFilters alone (just
+	// have (first filter(s) specify GVK) but this makes it easier and more
+	// clear at least for now
+	FilterTarget schema.GroupVersionKind `json:"filterTarget"`
+	MatchFilters []Filter                `json:"matchFilters"`
+	Result       FilterResult            `json:"result"`
 }
 
 // TODO worst name ever
@@ -66,16 +68,6 @@ type ValueReference struct {
 	// TODO would be nice to use corev1.ObjectFieldRef but it's limited in
 	// which fields it supports right now.
 	FieldRef *FieldSelector `json:"fieldRef,omitempty"`
-	// Selects a resource of the container: only resources limits and requests
-	// (limits.cpu, limits.memory, limits.ephemeral-storage, requests.cpu, requests.memory and requests.ephemeral-storage) are currently supported.
-	// +optional
-	ResourceFieldRef *corev1.ResourceFieldSelector `json:"resourceFieldRef,omitempty"`
-	// Selects a key of a ConfigMap.
-	// +optional
-	ConfigMapKeyRef *corev1.ConfigMapKeySelector `json:"configMapKeyRef,omitempty"`
-	// Selects a key of a secret in the pod's namespace
-	// +optional
-	SecretKeyRef *corev1.SecretKeySelector `json:"secretKeyRef,omitempty"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object

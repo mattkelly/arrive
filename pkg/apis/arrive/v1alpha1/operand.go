@@ -2,42 +2,17 @@ package v1alpha1
 
 import (
 	"fmt"
-	"strings"
+	"reflect"
 
 	"github.com/pkg/errors"
+
+	"k8s.io/client-go/util/jsonpath"
 
 	// NOTE: struct
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	// NOTE: interface
 	//"k8s.io/apimachinery/pkg/runtime"
 )
-
-// TODO borrowed from ark, just pull in ark utils maybe.
-// GetValue returns the object at root[path], where path is a dot separated string.
-func GetValue(root map[string]interface{}, path string) (interface{}, error) {
-	if root == nil {
-		return "", errors.New("root is nil")
-	}
-
-	pathParts := strings.Split(path, ".")
-	key := pathParts[0]
-
-	obj, found := root[pathParts[0]]
-	if !found {
-		return "", errors.Errorf("key %v not found", pathParts[0])
-	}
-
-	if len(pathParts) == 1 {
-		return obj, nil
-	}
-
-	subMap, ok := obj.(map[string]interface{})
-	if !ok {
-		return "", errors.Errorf("value at key %v is not a map[string]interface{}", key)
-	}
-
-	return GetValue(subMap, strings.Join(pathParts[1:], "."))
-}
 
 func (o *Operand) Resolve(obj *unstructured.Unstructured) (interface{}, error) {
 	// TODO handle o == nil case?
@@ -46,8 +21,34 @@ func (o *Operand) Resolve(obj *unstructured.Unstructured) (interface{}, error) {
 	}
 
 	if o.ValueFrom != nil {
-		return GetValue(obj.Object, o.ValueFrom.FieldRef.FieldPath)
+		// TODO all of this is obviously extremely unsafe...
+		template := o.ValueFrom.FieldRef.FieldPath
+
+		jp := jsonpath.New("test")
+		if err := jp.Parse(template); err != nil {
+			return nil, errors.Wrap(err, "parse JSONPath template")
+		}
+
+		results, err := jp.FindResults(obj.Object)
+		if err != nil {
+			return nil, errors.Wrap(err, "find JSONPath results")
+		}
+
+		// TODO only support one result?
+		res := results[0][0]
+		fmt.Printf("results: %#v\n", results)
+		fmt.Printf("res: %#v\n", res)
+		fmt.Printf("res.Type(): %#v\n", res.Type())
+		fmt.Printf("reflect.TypeOf(res): %#v\n", reflect.TypeOf(res))
+		fmt.Printf("reflect.ValueOf(res): %#v\n", reflect.ValueOf(res))
+		fmt.Printf("res.Interface(): %#v\n", res.Interface())
+
+		if _, ok := res.Interface().(string); !ok {
+			return nil, errors.New("TODO only string values are supported")
+		}
+
+		return results[0][0].Interface(), nil
 	}
 
-	return nil, fmt.Errorf("must specify either value or valueFrom")
+	return nil, errors.New("must specify either value or valueFrom")
 }
