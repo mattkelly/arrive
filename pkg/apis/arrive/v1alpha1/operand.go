@@ -1,8 +1,8 @@
 package v1alpha1
 
 import (
-	"fmt"
-	"reflect"
+	//"fmt"
+	//"reflect"
 
 	"github.com/pkg/errors"
 
@@ -34,20 +34,17 @@ func (o *Operand) Resolve(obj *unstructured.Unstructured) (interface{}, error) {
 			return nil, errors.Wrap(err, "find JSONPath results")
 		}
 
-		// TODO only support one result?
-		res := results[0][0]
-		fmt.Printf("results: %#v\n", results)
-		fmt.Printf("res: %#v\n", res)
-		fmt.Printf("res.Type(): %#v\n", res.Type())
-		fmt.Printf("reflect.TypeOf(res): %#v\n", reflect.TypeOf(res))
-		fmt.Printf("reflect.ValueOf(res): %#v\n", reflect.ValueOf(res))
-		fmt.Printf("res.Interface(): %#v\n", res.Interface())
+		if len(results) != 1 || len(results[0]) != 1 {
+			return nil, errors.New("TODO only scalar values are supported")
+		}
 
-		if _, ok := res.Interface().(string); !ok {
+		res := results[0][0].Interface()
+
+		if _, ok := res.(string); !ok {
 			return nil, errors.New("TODO only string values are supported")
 		}
 
-		return results[0][0].Interface(), nil
+		return res, nil
 	}
 
 	return nil, errors.New("must specify either value or valueFrom")
