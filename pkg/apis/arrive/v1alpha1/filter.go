@@ -3,6 +3,8 @@ package v1alpha1
 import (
 	"fmt"
 
+	"github.com/pkg/errors"
+
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 )
 
@@ -11,20 +13,14 @@ func (f *Filter) Match(obj *unstructured.Unstructured) (bool, error) {
 	left, err := f.OperandLeft.Resolve(obj)
 	fmt.Printf("left = %v (%T)\n", left, left)
 	if err != nil {
-		// TODO wrap
-		return false, err
+		return false, errors.Wrap(err, "resolve operandLeft")
 	}
-	leftStr, ok := left.(string)
-	if !ok {
-		panic("")
-	}
-	_ = leftStr
 
 	right, err := f.OperandRight.Resolve(obj)
 	fmt.Printf("right = %v (%T)\n", right, right)
 	if err != nil {
 		// TODO wrap
-		return false, err
+		return false, errors.Wrap(err, "resolve operandRight")
 	}
 
 	// TODO actually use Operator

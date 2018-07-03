@@ -1,17 +1,10 @@
 package v1alpha1
 
 import (
-	//"fmt"
-	//"reflect"
-
 	"github.com/pkg/errors"
 
-	"k8s.io/client-go/util/jsonpath"
-
-	// NOTE: struct
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
-	// NOTE: interface
-	//"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/client-go/util/jsonpath"
 )
 
 func (o *Operand) Resolve(obj *unstructured.Unstructured) (interface{}, error) {
@@ -21,7 +14,7 @@ func (o *Operand) Resolve(obj *unstructured.Unstructured) (interface{}, error) {
 	}
 
 	if o.ValueFrom != nil {
-		// TODO all of this is obviously extremely unsafe...
+		// TODO this line makes a ton of assumptions
 		template := o.ValueFrom.FieldRef.FieldPath
 
 		jp := jsonpath.New("test")
@@ -35,16 +28,10 @@ func (o *Operand) Resolve(obj *unstructured.Unstructured) (interface{}, error) {
 		}
 
 		if len(results) != 1 || len(results[0]) != 1 {
-			return nil, errors.New("TODO only scalar values are supported")
+			return nil, errors.New("only a single JSONPath result is supported")
 		}
 
-		res := results[0][0].Interface()
-
-		if _, ok := res.(string); !ok {
-			return nil, errors.New("TODO only string values are supported")
-		}
-
-		return res, nil
+		return results[0][0].Interface(), nil
 	}
 
 	return nil, errors.New("must specify either value or valueFrom")

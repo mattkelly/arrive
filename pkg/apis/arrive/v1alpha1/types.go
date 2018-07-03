@@ -32,6 +32,7 @@ type ArriveTestSpec struct {
 //}
 
 // TODO names
+// ExpectedState is the desired state to reach within the timeout.
 type ExpectedState struct {
 	// TODO it would be nice to target GVK based on matchFilters alone (just
 	// have (first filter(s) specify GVK) but this makes it easier and more
@@ -47,26 +48,33 @@ type FilterResult struct {
 	Count    Operand            `json:"count"`
 }
 
+// Operand specifies a value to operate on. The value can either be a literal
+// or a reference to another value.
 type Operand struct {
 	// TODO more than just strings
+
 	// Pointers to determine unset vs explicit zero value
 	Value     *string         `json:"value,omitempty"`
 	ValueFrom *ValueReference `json:"valueFrom,omitempty"`
 }
 
 type Filter struct {
-	OperandLeft  Operand            `json:"operandLeft,omitempty"`
-	Operator     selection.Operator `json:"operator"`
-	OperandRight Operand            `json:"operandRight,omitempty"`
+	// OperandLeft is the left-hand operand
+	OperandLeft Operand `json:"operandLeft,omitempty"`
+	// Operator is the operator to perform on the operands
+	Operator selection.Operator `json:"operator"`
+	// OperandLeft is the right-hand operand
+	OperandRight Operand `json:"operandRight,omitempty"`
 }
 
 type FieldSelector struct {
+	// FieldPath is a JSONPath that selects a field in a resource
 	FieldPath string `json"fieldPath"`
 }
 
+// ValueReference is a reference to a value in a resource.
 type ValueReference struct {
-	// TODO would be nice to use corev1.ObjectFieldRef but it's limited in
-	// which fields it supports right now.
+	// FieldRef is a reference to a field in a resource
 	FieldRef *FieldSelector `json:"fieldRef,omitempty"`
 }
 

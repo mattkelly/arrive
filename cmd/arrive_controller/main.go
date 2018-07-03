@@ -60,12 +60,12 @@ func main() {
 
 	fmt.Printf("%#v:\n", pod)
 
+	// TEST ONE
 	val := "kube-proxy"
 	f := v1alpha1.Filter{
 		OperandLeft: v1alpha1.Operand{
 			ValueFrom: &v1alpha1.ValueReference{
 				FieldRef: &v1alpha1.FieldSelector{
-					//FieldPath: "{.metadata.name}",
 					FieldPath: "{.metadata.labels['k8s-app']}",
 				},
 			},
