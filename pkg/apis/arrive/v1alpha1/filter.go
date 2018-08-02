@@ -6,6 +6,7 @@ import (
 	"github.com/pkg/errors"
 
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
+	"k8s.io/apimachinery/pkg/selection"
 )
 
 func (f *Filter) Match(obj *unstructured.Unstructured) (bool, error) {
@@ -23,6 +24,28 @@ func (f *Filter) Match(obj *unstructured.Unstructured) (bool, error) {
 		return false, errors.Wrap(err, "resolve operandRight")
 	}
 
-	// TODO actually use Operator
-	return left == right, nil
+	return operatorResult(f.Operator, left, right)
+}
+
+func operatorResult(op selection.Operator, left, right interface{}) (bool, error) {
+	switch op {
+	case selection.DoubleEquals:
+		fallthrough
+	case selection.Equals:
+		return left == right, nil
+	case selection.In:
+		fallthrough
+	case selection.NotEquals:
+		fallthrough
+	case selection.NotIn:
+		fallthrough
+	case selection.Exists:
+		fallthrough
+	case selection.GreaterThan:
+		fallthrough
+	case selection.LessThan:
+		fallthrough
+	default:
+		return false, errors.Errorf("operator %q not supported", op)
+	}
 }
