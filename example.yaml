@@ -1,0 +1,27 @@
+metadata:
+  name: whatever
+spec:
+  input:
+  timeout: 1m
+  expectedState:
+    filterTarget:
+      group: core
+      version: v1
+      kind: Node
+    matchFilters:
+      - operandLeft:
+          valueFrom:
+            fieldRef:
+              fieldPath: "{.metadata.labels['k8s-app']}"
+        operator: ==
+        operandRight: kube-proxy
+      - operandLeft:
+          valueFrom:
+            fieldRef:
+              fieldPath: "{.metadata.name}"
+        operator: ==
+        operandRight: kube-proxy-asdf
+    result:
+      operator: ==
+      count:
+        value: 3
